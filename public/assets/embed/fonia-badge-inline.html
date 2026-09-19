@@ -1,0 +1,102 @@
+<!-- ═══════════════════════════════════════════════════════════
+     Fonia Labs — Inline Attribution Badge (HTML / no-JS version)
+     Copy and paste the block below into your site's footer.
+     Paste just the <a> tag; the <style> block only needs to
+     be included once per page (ideally inside <head>).
+     ═══════════════════════════════════════════════════════════ -->
+
+<!-- 1. Add this once inside your <head> -->
+<style>
+.fonia-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 14px 8px 10px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background: rgba(11, 17, 32, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+.fonia-badge:hover { opacity: 0.8; transform: translateY(-2px); }
+
+/* Light-surface variant — add class="fonia-badge fonia-badge--light" */
+.fonia-badge--light {
+  background: rgba(255, 255, 255, 0.92);
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+.fonia-badge__label-top {
+  display: block;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+.fonia-badge--light .fonia-badge__label-top { color: #94a3b8; }
+.fonia-badge__wordmark {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+.fonia-badge__fon  { color: #f1f5f9; }
+.fonia-badge--light .fonia-badge__fon { color: #0f172a; }
+.fonia-badge__ia   { color: #38bdf8; }
+.fonia-badge__labs {
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  color: #94a3b8;
+  margin-left: 5px;
+  align-self: center;
+}
+.fonia-badge--light .fonia-badge__labs { color: #64748b; }
+</style>
+
+<!-- 2. Paste this wherever you want the badge to appear (e.g. footer) -->
+<a href="https://fonia-labs.vercel.app"
+   target="_blank"
+   rel="noopener noreferrer"
+   class="fonia-badge"
+   aria-label="Proudly developed under Fonia Labs">
+
+  <!-- O-Core mark -->
+  <svg width="22" height="22" viewBox="0 0 64 64" fill="none"
+       xmlns="http://www.w3.org/2000/svg" aria-hidden="true"
+       style="display:block;flex-shrink:0">
+    <circle cx="32" cy="32" r="28" stroke="#38bdf8" stroke-width="3.2"
+            stroke-opacity="0.55" stroke-linecap="round"
+            stroke-dasharray="38.5 5.5" transform="rotate(-45 32 32)"/>
+    <circle cx="32" cy="32" r="21" stroke="#94a3b8" stroke-width="2.4"
+            stroke-opacity="0.45" stroke-linecap="round"
+            stroke-dasharray="28.5 4.5" transform="rotate(-45 32 32)"/>
+    <circle cx="32" cy="32" r="14" stroke="#38bdf8" stroke-width="1.8"
+            stroke-opacity="0.5" stroke-linecap="round"
+            stroke-dasharray="18 3.8" transform="rotate(-45 32 32)"/>
+    <circle cx="32" cy="32" r="7.5" fill="#38bdf8" fill-opacity="0.9"/>
+    <ellipse cx="29.5" cy="28.5" rx="2.8" ry="1.8" fill="white"
+             fill-opacity="0.45" transform="rotate(-30 29.5 28.5)"/>
+  </svg>
+
+  <!-- Text -->
+  <span style="display:flex;flex-direction:column;gap:2px">
+    <span class="fonia-badge__label-top">Proudly developed under</span>
+    <span class="fonia-badge__wordmark">
+      <span class="fonia-badge__fon">Fon</span><span class="fonia-badge__ia">ia</span>
+      <span class="fonia-badge__labs">LABS</span>
+    </span>
+  </span>
+</a>
+
+<!-- ─── LIGHT SURFACE VARIANT ──────────────────────────────────
+     Use on sites with white/light backgrounds.
+     Change class to: class="fonia-badge fonia-badge--light"
+     ─────────────────────────────────────────────────────────── -->

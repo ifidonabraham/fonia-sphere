@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="80" viewBox="0 0 320 80" fill="none" role="img" aria-label="Fonia Labs (dark, for light backgrounds)">
+  <defs>
+    <radialGradient id="orb" cx="40%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#60a5fa"/>
+      <stop offset="55%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1e3a8a"/>
+    </radialGradient>
+  </defs>
+  <g transform="translate(8,8)">
+    <circle cx="32" cy="32" r="28" stroke="#475569" stroke-width="3.2" stroke-opacity="0.7" stroke-linecap="round" stroke-dasharray="38.5 5.5" transform="rotate(-45 32 32)"/>
+    <circle cx="32" cy="32" r="21" stroke="#64748b" stroke-width="2.4" stroke-opacity="0.6" stroke-linecap="round" stroke-dasharray="28.5 4.5" transform="rotate(-45 32 32)"/>
+    <circle cx="32" cy="32" r="14" stroke="#2563eb" stroke-width="1.8" stroke-opacity="0.7" stroke-linecap="round" stroke-dasharray="18 3.8" transform="rotate(-45 32 32)"/>
+    <circle cx="32" cy="32" r="7.5" fill="url(#orb)"/>
+    <ellipse cx="29.5" cy="28.5" rx="2.6" ry="1.6" fill="white" fill-opacity="0.45" transform="rotate(-30 29.5 28.5)"/>
+  </g>
+  <text x="86" y="47" font-family="Poppins, 'Segoe UI', Arial, sans-serif" font-size="40" font-weight="700" letter-spacing="-1.6">
+    <tspan fill="#0b1120">Fon</tspan><tspan fill="#2563eb">ia</tspan>
+  </text>
+  <text x="88" y="66" font-family="Poppins, 'Segoe UI', Arial, sans-serif" font-size="11" font-weight="600" letter-spacing="6" fill="#6b7280">LABS</text>
+</svg>

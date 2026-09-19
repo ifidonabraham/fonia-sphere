@@ -16,27 +16,10 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Upload directory setup
-const uploadDir = path.join(__dirname, 'uploads');
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-}
-
-// Multer Storage Configuration
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadDir);
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-    const ext = path.extname(file.originalname);
-    cb(null, 'fonia-' + uniqueSuffix + ext);
-  }
-});
-
+// Multer Storage Configuration (Memory Storage ensures zero filesystem dependency on Vercel & serverless)
 const upload = multer({
-  storage,
-  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 8 * 1024 * 1024 }, // 8MB limit
   fileFilter: (req, file, cb) => {
     if (file.mimetype.startsWith('image/')) {
       cb(null, true);
@@ -48,7 +31,12 @@ const upload = multer({
 
 // Serve static assets
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/uploads', express.static(uploadDir));
+
+// Local uploads directory (if present)
+const uploadDir = path.join(__dirname, 'uploads');
+if (fs.existsSync(uploadDir)) {
+  app.use('/uploads', express.static(uploadDir));
+}
 
 // Fonia Labs Ecosystem Showcase Data
 const foniaEcosystem = [
@@ -133,14 +121,15 @@ app.get('/api/fonia/ecosystem', (req, res) => {
   res.json({ success: true, companies: foniaEcosystem });
 });
 
-// File Upload
+// File Upload (Base64 Data URL avoids serverless ephemeral filesystem loss)
 app.post('/api/upload', upload.single('image'), (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ error: 'No image uploaded' });
     }
-    const fileUrl = `/uploads/${req.file.filename}`;
-    res.json({ success: true, url: fileUrl, filename: req.file.filename });
+    const base64Data = req.file.buffer.toString('base64');
+    const dataUrl = `data:${req.file.mimetype};base64,${base64Data}`;
+    res.json({ success: true, url: dataUrl });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -350,19 +339,33 @@ app.delete('/api/comments/:id', (req, res) => {
   res.json({ success: true, message: 'Comment deleted successfully' });
 });
 
+// Favicon routes
+app.get(['/favicon.ico', '/favicon.png'], (req, res) => {
+  const faviconPath = path.join(__dirname, 'public', 'assets', 'favicon.svg');
+  if (fs.existsSync(faviconPath)) {
+    return res.sendFile(faviconPath);
+  }
+  res.status(204).end();
+});
+
 // Fallback to index.html for Single-Page Application routing
 app.use((req, res, next) => {
-  if (req.method === 'GET' && !req.path.startsWith('/api') && !req.path.startsWith('/uploads')) {
+  if (req.method === 'GET' && !req.path.startsWith('/api')) {
     return res.sendFile(path.join(__dirname, 'public', 'index.html'));
   }
   next();
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`=========================================`);
-  console.log(`🚀 Fonia Social Platform is live!`);
-  console.log(`🌐 Server running at: http://localhost:${PORT}`);
-  console.log(`⚡ Fonia Labs Network Engine Ready`);
-  console.log(`=========================================`);
-});
+// Export app for Vercel Serverless Function runtime
+module.exports = app;
+
+// Start server when run directly (local development or standalone node)
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`=========================================`);
+    console.log(`🚀 Fonia Social Platform is live!`);
+    console.log(`🌐 Server running at: http://localhost:${PORT}`);
+    console.log(`⚡ Fonia Labs Network Engine Ready`);
+    console.log(`=========================================`);
+  });
+}

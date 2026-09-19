@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "functions": {
+    "server.js": {
+      "includeFiles": "public/**,fonia.db"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/server.js"
+    }
+  ]
+}

@@ -1,8 +1,25 @@
 const { DatabaseSync } = require('node:sqlite');
 const path = require('node:path');
 const fs = require('node:fs');
+const os = require('node:os');
 
-const DB_PATH = path.join(__dirname, 'fonia.db');
+const isVercel = Boolean(process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME);
+const DB_PATH = isVercel 
+  ? path.join(os.tmpdir(), 'fonia.db') 
+  : path.join(__dirname, 'fonia.db');
+
+// If running in Vercel serverless, copy pre-seeded fonia.db to /tmp if not yet present
+if (isVercel) {
+  const seedDbPath = path.join(__dirname, 'fonia.db');
+  if (!fs.existsSync(DB_PATH) && fs.existsSync(seedDbPath)) {
+    try {
+      fs.copyFileSync(seedDbPath, DB_PATH);
+    } catch (e) {
+      console.warn('Could not copy seed DB to /tmp, will initialize fresh:', e.message);
+    }
+  }
+}
+
 const db = new DatabaseSync(DB_PATH);
 
 // Enable foreign keys

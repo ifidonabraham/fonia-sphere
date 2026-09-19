@@ -1,14 +1,18 @@
 {
   "version": 2,
   "functions": {
-    "server.js": {
-      "includeFiles": "public/**,fonia.db"
+    "api/index.js": {
+      "includeFiles": "fonia.db,public/**"
     }
   },
   "rewrites": [
     {
-      "source": "/(.*)",
-      "destination": "/server.js"
+      "source": "/api/(.*)",
+      "destination": "/api/index.js"
+    },
+    {
+      "source": "/((?!assets/|css/|js/|uploads/|favicon|.*\\..*).*)",
+      "destination": "/index.html"
     }
   ]
 }

@@ -13,6 +13,18 @@ db.initDb();
 
 // Middlewares
 app.use(cors());
+
+// Restore original request URL from Vercel serverless rewrite headers
+app.use((req, res, next) => {
+  const matched = req.headers['x-matched-path'] || req.headers['x-vercel-matched-path'];
+  if (matched) {
+    const queryIndex = req.url.indexOf('?');
+    const queryString = queryIndex !== -1 ? req.url.substring(queryIndex) : '';
+    req.url = matched + queryString;
+  }
+  next();
+});
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
